@@ -1,4 +1,4 @@
-package com.example.playlist_maker_android_gubarevsavva.ui.screens
+package com.example.playlist_maker_android_gubarevsavva.ui.library
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -75,7 +75,7 @@ fun LibraryScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding),
+                .padding(innerPadding)
         ) {
             Column(
                 modifier = Modifier

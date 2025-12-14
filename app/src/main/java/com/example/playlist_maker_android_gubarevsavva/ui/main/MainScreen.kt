@@ -1,4 +1,4 @@
-package com.example.playlist_maker_android_gubarevsavva.ui.screens
+package com.example.playlist_maker_android_gubarevsavva.ui.main
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -87,11 +87,7 @@ private fun MainButton(
     } else {
         Color.Transparent
     }
-    val contentColor = if (isSecondary) {
-        MaterialTheme.colorScheme.onBackground
-    } else {
-        MaterialTheme.colorScheme.onBackground
-    }
+    val contentColor = MaterialTheme.colorScheme.onBackground
     OutlinedButton(
         onClick = onClick,
         modifier = Modifier

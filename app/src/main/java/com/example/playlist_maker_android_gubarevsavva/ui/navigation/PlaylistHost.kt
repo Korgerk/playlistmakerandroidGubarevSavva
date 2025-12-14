@@ -1,4 +1,4 @@
-package com.example.playlist_maker_android_gubarevsavva.navigation
+package com.example.playlist_maker_android_gubarevsavva.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -6,11 +6,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.playlist_maker_android_gubarevsavva.ui.screens.LibraryScreen
-import com.example.playlist_maker_android_gubarevsavva.ui.screens.MainScreen
-import com.example.playlist_maker_android_gubarevsavva.ui.screens.SearchScreen
-import com.example.playlist_maker_android_gubarevsavva.ui.screens.SettingsScreen
+import com.example.playlist_maker_android_gubarevsavva.ui.library.LibraryScreen
+import com.example.playlist_maker_android_gubarevsavva.ui.main.MainScreen
+import com.example.playlist_maker_android_gubarevsavva.ui.search.SearchScreen
 import com.example.playlist_maker_android_gubarevsavva.ui.search.SearchViewModel
+import com.example.playlist_maker_android_gubarevsavva.ui.settings.SettingsScreen
 
 @Composable
 fun PlaylistHost(

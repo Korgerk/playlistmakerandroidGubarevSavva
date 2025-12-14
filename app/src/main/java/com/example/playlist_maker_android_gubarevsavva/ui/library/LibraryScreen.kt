@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
@@ -66,7 +67,8 @@ fun LibraryScreen(
             FloatingActionButton(
                 onClick = { showBottomSheet = true },
                 containerColor = Color.White,
-                contentColor = Color.Black
+                contentColor = Color.Black,
+                shape = RoundedCornerShape(0.dp)
             ) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = null)
             }

@@ -3,7 +3,7 @@ package com.example.playlist_maker_android_gubarevsavva.ui.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.playlist_maker_android_gubarevsavva.creator.Creator
+import com.example.playlist_maker_android_gubarevsavva.data.di.Creator
 import com.example.playlist_maker_android_gubarevsavva.domain.repository.TracksRepository
 import java.io.IOException
 import kotlinx.coroutines.Dispatchers
@@ -30,6 +30,10 @@ class SearchViewModel(
                 _searchScreenState.update { SearchState.Fail(e.message.orEmpty()) }
             }
         }
+    }
+
+    fun clearSearch() {
+        _searchScreenState.update { SearchState.Initial }
     }
 
     companion object {

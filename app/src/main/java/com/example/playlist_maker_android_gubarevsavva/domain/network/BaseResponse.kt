@@ -1,5 +1,5 @@
 package com.example.playlist_maker_android_gubarevsavva.domain.network
 
-interface NetworkClient {
-    fun doRequest(dto: Any): BaseResponse
+open class BaseResponse {
+    var resultCode: Int = 0
 }

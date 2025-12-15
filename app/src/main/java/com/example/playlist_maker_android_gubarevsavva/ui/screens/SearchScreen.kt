@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Clear
@@ -33,9 +35,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.playlist_maker_android_gubarevsavva.R
@@ -53,6 +57,7 @@ fun SearchScreen(
 ) {
     val screenState by viewModel.searchScreenState.collectAsState()
     var query by rememberSaveable { mutableStateOf("") }
+    val focusManager = LocalFocusManager.current
 
     Scaffold(
         modifier = modifier,
@@ -84,14 +89,29 @@ fun SearchScreen(
         ) {
             OutlinedTextField(
                 value = query,
-                onValueChange = { query = it },
+                onValueChange = {
+                    query = it
+                    if (it.isBlank()) {
+                        viewModel.clearSearch()
+                    }
+                },
                 modifier = Modifier.fillMaxWidth(),
                 placeholder = { Text(text = stringResource(id = R.string.search_placeholder)) },
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                keyboardActions = KeyboardActions(
+                    onSearch = {
+                        focusManager.clearFocus(force = true)
+                        viewModel.search(query.trim())
+                    }
+                ),
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Default.Search,
                         contentDescription = null,
-                        modifier = Modifier.clickable { viewModel.search(query) },
+                        modifier = Modifier.clickable {
+                            focusManager.clearFocus(force = true)
+                            viewModel.search(query.trim())
+                        },
                         tint = Color.White
                     )
                 },
@@ -100,6 +120,7 @@ fun SearchScreen(
                         onClick = {
                             if (query.isNotEmpty()) {
                                 query = ""
+                                viewModel.clearSearch()
                             }
                         }
                     ) {
@@ -156,7 +177,10 @@ fun SearchScreen(
                 }
 
                 is SearchState.Fail -> {
-                    BoxCenteredText(text = state.error.ifBlank { "Ошибка" }, color = Color.Red)
+                    BoxCenteredText(
+                        text = state.error.ifBlank { stringResource(id = R.string.search_error_generic) },
+                        color = Color.Red
+                    )
                 }
             }
         }

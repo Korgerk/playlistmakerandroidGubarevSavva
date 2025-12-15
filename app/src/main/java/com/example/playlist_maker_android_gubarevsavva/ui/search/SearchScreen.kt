@@ -1,4 +1,4 @@
-package com.example.playlist_maker_android_gubarevsavva.ui.screens
+package com.example.playlist_maker_android_gubarevsavva.ui.search
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -26,6 +26,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -44,8 +45,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.playlist_maker_android_gubarevsavva.R
 import com.example.playlist_maker_android_gubarevsavva.domain.model.Track
-import com.example.playlist_maker_android_gubarevsavva.ui.search.SearchState
-import com.example.playlist_maker_android_gubarevsavva.ui.search.SearchViewModel
 import com.example.playlist_maker_android_gubarevsavva.ui.theme.PlaylistmakerandroidGubarevSavvaTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -132,6 +131,7 @@ fun SearchScreen(
                     }
                 },
                 singleLine = true,
+                shape = RoundedCornerShape(0.dp),
                 colors = TextFieldDefaults.colors(
                     focusedTextColor = Color.White,
                     unfocusedTextColor = Color.White,

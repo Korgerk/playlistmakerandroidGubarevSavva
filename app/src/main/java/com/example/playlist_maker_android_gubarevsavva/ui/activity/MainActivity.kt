@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.rememberNavController
-import com.example.playlist_maker_android_gubarevsavva.navigation.PlaylistHost
+import com.example.playlist_maker_android_gubarevsavva.ui.navigation.PlaylistHost
 import com.example.playlist_maker_android_gubarevsavva.ui.theme.PlaylistmakerandroidGubarevSavvaTheme
 
 class MainActivity : ComponentActivity() {

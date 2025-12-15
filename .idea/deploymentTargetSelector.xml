@@ -4,7 +4,11 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
+<<<<<<< HEAD
         <DropdownSelection timestamp="2025-12-14T13:44:02.875156600Z">
+=======
+        <DropdownSelection timestamp="2025-12-14T20:32:54.911477700Z">
+>>>>>>> 2e5091eefe01a35b5145009fdbdea987a7ef9ecc
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\Savva\.android\avd\Medium_Phone.avd" />
@@ -13,6 +17,20 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
+<<<<<<< HEAD
+=======
+      <SelectionState runConfigName="MainActivity">
+        <option name="selectionMode" value="DROPDOWN" />
+        <DropdownSelection timestamp="2025-12-14T20:21:18.537013800Z">
+          <Target type="DEFAULT_BOOT">
+            <handle>
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\savva\.android\avd\Pixel_9a.avd" />
+            </handle>
+          </Target>
+        </DropdownSelection>
+        <DialogSelection />
+      </SelectionState>
+>>>>>>> 2e5091eefe01a35b5145009fdbdea987a7ef9ecc
     </selectionStates>
   </component>
 </project>

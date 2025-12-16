@@ -1,4 +1,4 @@
-package com.example.playlist_maker_android_gubarevsavva.ui.main
+﻿package com.example.playlist_maker_android_gubarevsavva.ui.main
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,8 +32,9 @@ import com.example.playlist_maker_android_gubarevsavva.ui.theme.Playlistmakerand
 
 @Composable
 fun MainScreen(
-    onSearchClick: () -> Unit,
-    onLibraryClick: () -> Unit,
+    onSongsClick: () -> Unit,
+    onPlaylistsClick: () -> Unit,
+    onFavoritesClick: () -> Unit,
     onSettingsClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -48,10 +50,15 @@ fun MainScreen(
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                val logoRes = if (MaterialTheme.colorScheme.background.luminance() < 0.5f) {
+                    R.drawable.icon_black
+                } else {
+                    R.drawable.icon_white
+                }
                 Image(
-                    painter = painterResource(id = R.drawable.ic_music),
+                    painter = painterResource(id = logoRes),
                     contentDescription = null,
-                    modifier = Modifier.size(120.dp)
+                    modifier = Modifier.size(160.dp)
                 )
                 Spacer(modifier = Modifier.height(24.dp))
                 Text(
@@ -64,13 +71,10 @@ fun MainScreen(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                MainButton(text = stringResource(id = R.string.search_button), onClick = onSearchClick)
-                MainButton(text = stringResource(id = R.string.library_button), onClick = onLibraryClick)
-                MainButton(
-                    text = stringResource(id = R.string.settings_button),
-                    onClick = onSettingsClick,
-                    isSecondary = true
-                )
+                MainButton(text = stringResource(id = R.string.search_button), onClick = onSongsClick)
+                MainButton(text = stringResource(id = R.string.library_button), onClick = onPlaylistsClick)
+                MainButton(text = stringResource(id = R.string.favorites_title), onClick = onFavoritesClick, isSecondary = true)
+                MainButton(text = stringResource(id = R.string.settings_button), onClick = onSettingsClick, isSecondary = true)
             }
         }
     }
@@ -82,11 +86,7 @@ private fun MainButton(
     onClick: () -> Unit,
     isSecondary: Boolean = false
 ) {
-    val containerColor = if (isSecondary) {
-        Color.Transparent
-    } else {
-        Color.Transparent
-    }
+    val containerColor = Color.Transparent
     val contentColor = MaterialTheme.colorScheme.onBackground
     OutlinedButton(
         onClick = onClick,
@@ -94,7 +94,7 @@ private fun MainButton(
             .fillMaxWidth()
             .height(56.dp),
         shape = RoundedCornerShape(0.dp),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
+        border = BorderStroke(4.dp, MaterialTheme.colorScheme.outline),
         colors = ButtonDefaults.outlinedButtonColors(
             containerColor = containerColor,
             contentColor = contentColor
@@ -108,6 +108,11 @@ private fun MainButton(
 @Composable
 private fun MainScreenPreview() {
     PlaylistmakerandroidGubarevSavvaTheme {
-        MainScreen(onSearchClick = {}, onLibraryClick = {}, onSettingsClick = {})
+        MainScreen(
+            onSongsClick = {},
+            onPlaylistsClick = {},
+            onFavoritesClick = {},
+            onSettingsClick = {}
+        )
     }
 }

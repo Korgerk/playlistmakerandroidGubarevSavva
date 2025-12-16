@@ -4,22 +4,22 @@ import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import androidx.navigation.NavHostController
 import com.example.playlist_maker_android_gubarevsavva.domain.model.Track
 import com.example.playlist_maker_android_gubarevsavva.ui.favorites.FavoritesScreen
 import com.example.playlist_maker_android_gubarevsavva.ui.library.LibraryScreen
+import com.example.playlist_maker_android_gubarevsavva.ui.library.NewPlaylistScreen
 import com.example.playlist_maker_android_gubarevsavva.ui.library.PlaylistDetailsScreen
 import com.example.playlist_maker_android_gubarevsavva.ui.library.PlaylistsViewModel
 import com.example.playlist_maker_android_gubarevsavva.ui.main.MainScreen
 import com.example.playlist_maker_android_gubarevsavva.ui.search.SearchScreen
 import com.example.playlist_maker_android_gubarevsavva.ui.search.SearchViewModel
-import com.example.playlist_maker_android_gubarevsavva.ui.track.TrackDetailsScreen
-import com.example.playlist_maker_android_gubarevsavva.ui.library.NewPlaylistScreen
 import com.example.playlist_maker_android_gubarevsavva.ui.settings.SettingsScreen
+import com.example.playlist_maker_android_gubarevsavva.ui.track.TrackDetailsScreen
 
 @Composable
 fun PlaylistHost(
@@ -42,18 +42,19 @@ fun PlaylistHost(
             )
         }
         composable(Screen.SONGS.route) {
-            val viewModel: SearchViewModel = viewModel(factory = SearchViewModel.getViewModelFactory())
+            val viewModel: SearchViewModel =
+                viewModel(factory = SearchViewModel.getViewModelFactory())
             SearchScreen(
                 onBackClick = { navController.popBackStack() },
                 viewModel = viewModel,
                 onTrackClick = { track ->
                     val route = "${Screen.TRACK_DETAILS.route}/" +
-                        "${Uri.encode(track.trackName)}/" +
-                        "${Uri.encode(track.artistName)}/" +
-                        "${Uri.encode(track.trackTime)}/" +
-                        "${Uri.encode(track.album)}/" +
-                        "${Uri.encode(track.year)}/" +
-                        "${Uri.encode(track.artworkUrl.orEmpty())}"
+                            "${Uri.encode(track.trackName)}/" +
+                            "${Uri.encode(track.artistName)}/" +
+                            "${Uri.encode(track.trackTime)}/" +
+                            "${Uri.encode(track.album)}/" +
+                            "${Uri.encode(track.year)}/" +
+                            "${Uri.encode(track.artworkUrl.orEmpty())}"
                     navController.navigate(route)
                 }
             )
@@ -72,12 +73,12 @@ fun PlaylistHost(
                 onBackClick = { navController.popBackStack() },
                 onTrackClick = { track ->
                     val route = "${Screen.TRACK_DETAILS.route}/" +
-                        "${Uri.encode(track.trackName)}/" +
-                        "${Uri.encode(track.artistName)}/" +
-                        "${Uri.encode(track.trackTime)}/" +
-                        "${Uri.encode(track.album)}/" +
-                        "${Uri.encode(track.year)}/" +
-                        "${Uri.encode(track.artworkUrl.orEmpty())}"
+                            "${Uri.encode(track.trackName)}/" +
+                            "${Uri.encode(track.artistName)}/" +
+                            "${Uri.encode(track.trackTime)}/" +
+                            "${Uri.encode(track.album)}/" +
+                            "${Uri.encode(track.year)}/" +
+                            "${Uri.encode(track.artworkUrl.orEmpty())}"
                     navController.navigate(route)
                 }
             )
@@ -113,7 +114,8 @@ fun PlaylistHost(
             val trackTime = backStackEntry.arguments?.getString("trackTime").orEmpty()
             val album = backStackEntry.arguments?.getString("album").orEmpty()
             val year = backStackEntry.arguments?.getString("year").orEmpty()
-            val artworkUrl = backStackEntry.arguments?.getString("artworkUrl").orEmpty().ifBlank { null }
+            val artworkUrl =
+                backStackEntry.arguments?.getString("artworkUrl").orEmpty().ifBlank { null }
             val track = Track(
                 trackName = trackName,
                 artistName = artistName,

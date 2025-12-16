@@ -14,7 +14,6 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
-import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -60,7 +59,10 @@ fun TrackDetailsScreen(
                 title = { Text(text = state.track.trackName) },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
-                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = stringResource(id = R.string.back_button_description))
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = stringResource(id = R.string.back_button_description)
+                        )
                     }
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -96,10 +98,16 @@ fun TrackDetailsScreen(
             Text(text = state.track.artistName, color = MaterialTheme.colorScheme.onSurfaceVariant)
             Text(text = state.track.trackTime, color = MaterialTheme.colorScheme.onSurfaceVariant)
             if (state.track.album.isNotBlank()) {
-                Text(text = "Альбом: ${state.track.album}", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(
+                    text = "Альбом: ${state.track.album}",
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
             if (state.track.year.isNotBlank()) {
-                Text(text = "Год: ${state.track.year}", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(
+                    text = "Год: ${state.track.year}",
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
 
             Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {

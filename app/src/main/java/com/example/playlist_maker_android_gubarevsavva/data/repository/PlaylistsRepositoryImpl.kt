@@ -29,7 +29,8 @@ class PlaylistsRepositoryImpl(
             trackDao.getAll()
         ) { playlists, tracks ->
             playlists.map { entity ->
-                val playlistTracks = tracks.filter { it.playlistId == entity.id }.map { it.toDomain() }
+                val playlistTracks =
+                    tracks.filter { it.playlistId == entity.id }.map { it.toDomain() }
                 entity.toDomain(playlistTracks)
             }
         }

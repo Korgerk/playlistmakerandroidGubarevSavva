@@ -5,12 +5,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.playlist_maker_android_gubarevsavva.data.di.Creator
 import com.example.playlist_maker_android_gubarevsavva.domain.repository.TracksRepository
-import java.io.IOException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.io.IOException
 
 class SearchViewModel(
     private val tracksRepository: TracksRepository

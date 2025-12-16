@@ -178,7 +178,11 @@ fun SearchScreen(
                                 }
                                 .padding(vertical = 4.dp)
                         )
-                        HorizontalDivider(color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f))
+                        HorizontalDivider(
+                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                                alpha = 0.3f
+                            )
+                        )
                     }
                 }
                 return@Column
@@ -218,7 +222,11 @@ fun SearchScreen(
                                     track = track,
                                     onClick = { onTrackClick(track) }
                                 )
-                                HorizontalDivider(color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f))
+                                HorizontalDivider(
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                                        alpha = 0.5f
+                                    )
+                                )
                             }
                         }
                     }
@@ -256,7 +264,11 @@ private fun PlaceholderBox(title: String, type: PlaceholderType) {
             contentDescription = null,
             modifier = Modifier.size(120.dp)
         )
-        Text(text = title, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 12.dp))
+        Text(
+            text = title,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(top = 12.dp)
+        )
     }
 }
 
@@ -267,13 +279,18 @@ private fun ErrorPlaceholder(message: String, onRetry: () -> Unit) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        val logoRes = if (MaterialTheme.colorScheme.background.luminance() < 0.5f) R.drawable.icon_black_nf else R.drawable.icon_white_nf
+        val logoRes =
+            if (MaterialTheme.colorScheme.background.luminance() < 0.5f) R.drawable.icon_black_nf else R.drawable.icon_white_nf
         Image(
             painter = painterResource(id = logoRes),
             contentDescription = null,
             modifier = Modifier.size(120.dp)
         )
-        Text(text = message, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 12.dp))
+        Text(
+            text = message,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(top = 12.dp)
+        )
         Button(
             onClick = onRetry,
             modifier = Modifier.padding(top = 12.dp)
@@ -311,7 +328,11 @@ private fun TrackListItem(
             modifier = Modifier.weight(1f),
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            Text(track.trackName, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
+            Text(
+                track.trackName,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
+            )
             Text(track.artistName, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
         Text(track.trackTime, color = MaterialTheme.colorScheme.onSurface)

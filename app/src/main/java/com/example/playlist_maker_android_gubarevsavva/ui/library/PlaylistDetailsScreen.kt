@@ -51,7 +51,11 @@ import com.example.playlist_maker_android_gubarevsavva.ui.theme.Playlistmakerand
 fun PlaylistDetailsScreen(
     playlistId: Long,
     onBackClick: () -> Unit,
-    viewModel: PlaylistDetailsViewModel = viewModel(factory = PlaylistDetailsViewModel.factory(playlistId))
+    viewModel: PlaylistDetailsViewModel = viewModel(
+        factory = PlaylistDetailsViewModel.factory(
+            playlistId
+        )
+    )
 ) {
     val state by viewModel.state.collectAsState()
     val playlist = state.playlist
@@ -86,7 +90,11 @@ private fun PlaylistDetailsContent(
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text(text = playlist?.name ?: stringResource(id = R.string.library_button)) },
+                title = {
+                    Text(
+                        text = playlist?.name ?: stringResource(id = R.string.library_button)
+                    )
+                },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(
@@ -98,7 +106,10 @@ private fun PlaylistDetailsContent(
                 actions = {
                     if (playlist != null) {
                         IconButton(onClick = { showDeleteDialog = true }) {
-                            Icon(imageVector = Icons.Default.Delete, contentDescription = stringResource(id = R.string.delete))
+                            Icon(
+                                imageVector = Icons.Default.Delete,
+                                contentDescription = stringResource(id = R.string.delete)
+                            )
                         }
                     }
                 },
@@ -118,7 +129,10 @@ private fun PlaylistDetailsContent(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = stringResource(id = R.string.search_empty), color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(
+                    text = stringResource(id = R.string.search_empty),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
         } else {
             Column(
@@ -148,8 +162,14 @@ private fun PlaylistDetailsContent(
                         colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurfaceVariant)
                     )
                 }
-                Text(text = playlist.description.ifBlank { stringResource(id = R.string.favorites_empty) }, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                Text(text = "Треков: ${playlist.tracks.size}", color = MaterialTheme.colorScheme.onSurface)
+                Text(
+                    text = playlist.description.ifBlank { stringResource(id = R.string.favorites_empty) },
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    text = "Треков: ${playlist.tracks.size}",
+                    color = MaterialTheme.colorScheme.onSurface
+                )
 
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),

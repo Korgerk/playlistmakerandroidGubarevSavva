@@ -60,14 +60,16 @@ fun NewPlaylistScreen(
     val isValid = name.isNotBlank()
     val context = LocalContext.current
 
-    val pickImageLauncher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-        coverUri = uri
-    }
-    val permissionLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-        if (granted) {
-            pickImageLauncher.launch("image/*")
+    val pickImageLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            coverUri = uri
         }
-    }
+    val permissionLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+            if (granted) {
+                pickImageLauncher.launch("image/*")
+            }
+        }
 
     Scaffold(
         topBar = {
@@ -104,7 +106,10 @@ fun NewPlaylistScreen(
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                             pickImageLauncher.launch("image/*")
                         } else {
-                            when (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                            when (ContextCompat.checkSelfPermission(
+                                context,
+                                Manifest.permission.READ_EXTERNAL_STORAGE
+                            )) {
                                 PackageManager.PERMISSION_GRANTED -> pickImageLauncher.launch("image/*")
                                 else -> permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
                             }
@@ -120,11 +125,12 @@ fun NewPlaylistScreen(
                         contentScale = ContentScale.Crop
                     )
                 } else {
-                    val placeholderRes = if (MaterialTheme.colorScheme.background.luminance() < 0.5f) {
-                        R.drawable.icon_black_add
-                    } else {
-                        R.drawable.icon_white_add
-                    }
+                    val placeholderRes =
+                        if (MaterialTheme.colorScheme.background.luminance() < 0.5f) {
+                            R.drawable.icon_black_add
+                        } else {
+                            R.drawable.icon_white_add
+                        }
                     Image(
                         painter = painterResource(id = placeholderRes),
                         contentDescription = "Выбрать обложку",
@@ -168,7 +174,11 @@ fun NewPlaylistScreen(
             )
             Button(
                 onClick = {
-                    viewModel.createNewPlayList(name.trim(), description.trim(), coverUri?.toString())
+                    viewModel.createNewPlayList(
+                        name.trim(),
+                        description.trim(),
+                        coverUri?.toString()
+                    )
                     onBackClick()
                 },
                 enabled = isValid

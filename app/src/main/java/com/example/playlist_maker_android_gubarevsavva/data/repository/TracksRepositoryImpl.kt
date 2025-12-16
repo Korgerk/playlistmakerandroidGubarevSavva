@@ -9,10 +9,10 @@ import com.example.playlist_maker_android_gubarevsavva.data.preferences.SearchHi
 import com.example.playlist_maker_android_gubarevsavva.domain.model.Track
 import com.example.playlist_maker_android_gubarevsavva.domain.network.NetworkClient
 import com.example.playlist_maker_android_gubarevsavva.domain.repository.TracksRepository
-import java.io.IOException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.io.IOException
 
 class TracksRepositoryImpl(
     private val networkClient: NetworkClient,
@@ -44,7 +44,8 @@ class TracksRepositoryImpl(
     }
 
     override fun getTrackByNameAndArtist(track: Track): Flow<Track?> {
-        return trackDao.findByNameAndArtistFlow(track.trackName, track.artistName).map { it?.toDomain() }
+        return trackDao.findByNameAndArtistFlow(track.trackName, track.artistName)
+            .map { it?.toDomain() }
     }
 
     override fun getFavoriteTracks(): Flow<List<Track>> {

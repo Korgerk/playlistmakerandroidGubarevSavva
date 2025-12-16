@@ -120,7 +120,11 @@ fun LibraryScreen(
                                 onClick = { onPlaylistClick(playlist.id) },
                                 onLongClick = { deleteTargetId = playlist.id }
                             )
-                            HorizontalDivider(color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f))
+                            HorizontalDivider(
+                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                                    alpha = 0.5f
+                                )
+                            )
                         }
                     }
                 }
@@ -184,7 +188,10 @@ private fun PlaylistRow(
         Column(verticalArrangement = Arrangement.spacedBy(4.dp), modifier = Modifier.weight(1f)) {
             Text(text = playlist.name, color = MaterialTheme.colorScheme.onSurface)
             if (playlist.description.isNotBlank()) {
-                Text(text = playlist.description, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(
+                    text = playlist.description,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
             val trackCount = playlist.tracks.size
             Text(text = "$trackCount треков", color = MaterialTheme.colorScheme.onSurfaceVariant)

@@ -27,7 +27,11 @@ fun TrackEntity.toDomain(): Track =
         favorite = favorite
     )
 
-fun Track.toEntity(existingId: Long = 0, playlistIdOverride: Long? = playlistId, favoriteOverride: Boolean = favorite): TrackEntity =
+fun Track.toEntity(
+    existingId: Long = 0,
+    playlistIdOverride: Long? = playlistId,
+    favoriteOverride: Boolean = favorite
+): TrackEntity =
     TrackEntity(
         id = if (existingId != 0L) existingId else id,
         trackName = trackName,

@@ -52,7 +52,10 @@ fun FavoritesScreen(
                 title = { Text(text = stringResource(id = R.string.favorites_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
-                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = stringResource(id = R.string.back_button_description))
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = stringResource(id = R.string.back_button_description)
+                        )
                     }
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -71,7 +74,10 @@ fun FavoritesScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = stringResource(id = R.string.favorites_empty), color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(
+                    text = stringResource(id = R.string.favorites_empty),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
         } else {
             LazyColumn(
@@ -121,7 +127,11 @@ private fun FavoriteTrackRow(track: Track, onClick: () -> Unit, onLongClick: () 
             modifier = Modifier.weight(1f),
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            Text(track.trackName, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
+            Text(
+                track.trackName,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
+            )
             Text(track.artistName, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
         Text(track.trackTime, color = MaterialTheme.colorScheme.onSurface)

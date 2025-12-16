@@ -1,6 +1,5 @@
 ﻿package com.example.playlist_maker_android_gubarevsavva.data.storage
 
-import com.example.playlist_maker_android_gubarevsavva.R
 import com.example.playlist_maker_android_gubarevsavva.data.dto.TrackDto
 
 class Storage {
@@ -180,7 +179,7 @@ class Storage {
         val query = request.lowercase()
         return listTracks.filter { track ->
             track.trackName.lowercase().contains(query) ||
-                track.artistName.lowercase().contains(query)
+                    track.artistName.lowercase().contains(query)
         }.map { track ->
             track.copy(
                 artworkUrl100 = resolveCover(track.collectionName)
@@ -193,13 +192,29 @@ class Storage {
         val pkg = "com.example.playlist_maker_android_gubarevsavva"
         return when {
             collectionName.contains("doomsday", true) -> "android.resource://$pkg/drawable/doomsday"
-            collectionName.contains("madvillain", true) -> "android.resource://$pkg/drawable/madvillain"
+            collectionName.contains(
+                "madvillain",
+                true
+            ) -> "android.resource://$pkg/drawable/madvillain"
+
             collectionName.contains("mm..food", true) -> "android.resource://$pkg/drawable/food"
-            collectionName.contains("born like this", true) -> "android.resource://$pkg/drawable/born_like_this"
-            collectionName.contains("36 chambers", true) || collectionName.contains("enter the wu", true) -> "android.resource://$pkg/drawable/enter"
+            collectionName.contains(
+                "born like this",
+                true
+            ) -> "android.resource://$pkg/drawable/born_like_this"
+
+            collectionName.contains("36 chambers", true) || collectionName.contains(
+                "enter the wu",
+                true
+            ) -> "android.resource://$pkg/drawable/enter"
+
             collectionName.contains("forever", true) -> "android.resource://$pkg/drawable/forever"
             collectionName.contains("the w", true) -> "android.resource://$pkg/drawable/the_w"
-            collectionName.contains("iron flag", true) -> "android.resource://$pkg/drawable/iron_flag"
+            collectionName.contains(
+                "iron flag",
+                true
+            ) -> "android.resource://$pkg/drawable/iron_flag"
+
             else -> null
         }
     }

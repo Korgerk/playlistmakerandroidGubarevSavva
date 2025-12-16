@@ -33,4 +33,6 @@
     <string name="delete_playlist_title">Удалить плейлист?</string>
     <string name="delete_playlist_message">Плейлист и его треки будут удалены.</string>
     <string name="cancel">Отмена</string>
+    <string name="theme">Смена темы</string>
+    <string name="ya">Created by Korgerk aka Nohym</string>
 </resources>

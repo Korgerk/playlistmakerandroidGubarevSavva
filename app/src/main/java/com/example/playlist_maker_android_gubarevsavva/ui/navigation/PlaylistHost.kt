@@ -16,6 +16,7 @@ import com.example.playlist_maker_android_gubarevsavva.ui.library.NewPlaylistScr
 import com.example.playlist_maker_android_gubarevsavva.ui.library.PlaylistDetailsScreen
 import com.example.playlist_maker_android_gubarevsavva.ui.library.PlaylistsViewModel
 import com.example.playlist_maker_android_gubarevsavva.ui.main.MainScreen
+import com.example.playlist_maker_android_gubarevsavva.ui.model.UiTrack
 import com.example.playlist_maker_android_gubarevsavva.ui.search.SearchScreen
 import com.example.playlist_maker_android_gubarevsavva.ui.search.SearchViewModel
 import com.example.playlist_maker_android_gubarevsavva.ui.settings.SettingsScreen
@@ -47,11 +48,11 @@ fun PlaylistHost(
             SearchScreen(
                 onBackClick = { navController.popBackStack() },
                 viewModel = viewModel,
-                onTrackClick = { track ->
+                onTrackClick = { track: UiTrack ->
                     val route = "${Screen.TRACK_DETAILS.route}/" +
                             "${Uri.encode(track.trackName)}/" +
                             "${Uri.encode(track.artistName)}/" +
-                            "${Uri.encode(track.trackTime)}/" +
+                            "${track.trackTimeMillis}/" +
                             "${Uri.encode(track.album)}/" +
                             "${Uri.encode(track.year)}/" +
                             "${Uri.encode(track.artworkUrl.orEmpty())}"
@@ -71,11 +72,11 @@ fun PlaylistHost(
         composable(Screen.FAVORITES.route) {
             FavoritesScreen(
                 onBackClick = { navController.popBackStack() },
-                onTrackClick = { track ->
+                onTrackClick = { track: UiTrack ->
                     val route = "${Screen.TRACK_DETAILS.route}/" +
                             "${Uri.encode(track.trackName)}/" +
                             "${Uri.encode(track.artistName)}/" +
-                            "${Uri.encode(track.trackTime)}/" +
+                            "${track.trackTimeMillis}/" +
                             "${Uri.encode(track.album)}/" +
                             "${Uri.encode(track.year)}/" +
                             "${Uri.encode(track.artworkUrl.orEmpty())}"
@@ -99,11 +100,11 @@ fun PlaylistHost(
             )
         }
         composable(
-            route = "${Screen.TRACK_DETAILS.route}/{trackName}/{artistName}/{trackTime}/{album}/{year}/{artworkUrl}",
+            route = "${Screen.TRACK_DETAILS.route}/{trackName}/{artistName}/{trackTimeMillis}/{album}/{year}/{artworkUrl}",
             arguments = listOf(
                 navArgument("trackName") { type = NavType.StringType },
                 navArgument("artistName") { type = NavType.StringType },
-                navArgument("trackTime") { type = NavType.StringType },
+                navArgument("trackTimeMillis") { type = NavType.LongType },
                 navArgument("album") { type = NavType.StringType },
                 navArgument("year") { type = NavType.StringType },
                 navArgument("artworkUrl") { type = NavType.StringType }
@@ -111,7 +112,7 @@ fun PlaylistHost(
         ) { backStackEntry ->
             val trackName = backStackEntry.arguments?.getString("trackName").orEmpty()
             val artistName = backStackEntry.arguments?.getString("artistName").orEmpty()
-            val trackTime = backStackEntry.arguments?.getString("trackTime").orEmpty()
+            val trackTimeMillis = backStackEntry.arguments?.getLong("trackTimeMillis") ?: 0L
             val album = backStackEntry.arguments?.getString("album").orEmpty()
             val year = backStackEntry.arguments?.getString("year").orEmpty()
             val artworkUrl =
@@ -119,7 +120,7 @@ fun PlaylistHost(
             val track = Track(
                 trackName = trackName,
                 artistName = artistName,
-                trackTime = trackTime,
+                trackTimeMillis = trackTimeMillis,
                 album = album,
                 year = year,
                 artworkUrl = artworkUrl

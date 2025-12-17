@@ -9,7 +9,6 @@ import com.example.playlist_maker_android_gubarevsavva.data.preferences.SearchHi
 import com.example.playlist_maker_android_gubarevsavva.domain.model.Track
 import com.example.playlist_maker_android_gubarevsavva.domain.network.NetworkClient
 import com.example.playlist_maker_android_gubarevsavva.domain.repository.TracksRepository
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.io.IOException
@@ -22,20 +21,17 @@ class TracksRepositoryImpl(
 
     override suspend fun searchTracks(expression: String): List<Track> {
         val response = networkClient.doRequest(TracksSearchRequest(expression))
-        delay(1000) // imitate network delay
         if (response.resultCode != 200) {
             throw IOException("Ошибка сервера")
         }
         return (response as TracksSearchResponse).results.map { dto ->
-            val seconds = dto.trackTimeMillis / 1000
-            val minutes = seconds / 60
-            val trackTime = "%02d:%02d".format(minutes, seconds - minutes * 60)
             val year = dto.releaseDate?.toString()?.take(4).orEmpty()
-            val artwork = dto.artworkUrl100?.toString()
+            val artwork = dto.artworkUrl100
+                ?.replace("100x100bb", "600x600bb")
             Track(
                 trackName = dto.trackName,
                 artistName = dto.artistName,
-                trackTime = trackTime,
+                trackTimeMillis = dto.trackTimeMillis.toLong(),
                 album = dto.collectionName.orEmpty(),
                 year = year,
                 artworkUrl = artwork

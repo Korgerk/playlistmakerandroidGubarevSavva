@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -19,10 +20,13 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.luminance
@@ -31,20 +35,22 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.playlist_maker_android_gubarevsavva.R
-import com.example.playlist_maker_android_gubarevsavva.domain.model.Track
+import com.example.playlist_maker_android_gubarevsavva.ui.model.UiTrack
 import com.example.playlist_maker_android_gubarevsavva.ui.theme.PlaylistmakerandroidGubarevSavvaTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FavoritesScreen(
     onBackClick: () -> Unit,
-    onTrackClick: (Track) -> Unit = {},
+    onTrackClick: (UiTrack) -> Unit = {},
     viewModel: FavoritesViewModel = viewModel(factory = FavoritesViewModel.factory())
 ) {
-    val favorites by viewModel.favorites.collectAsState()
+    val favorites by viewModel.favorites.collectAsStateWithLifecycle()
+    var trackToDelete by remember { mutableStateOf<UiTrack?>(null) }
 
     Scaffold(
         topBar = {
@@ -91,16 +97,38 @@ fun FavoritesScreen(
                     FavoriteTrackRow(
                         track = track,
                         onClick = { onTrackClick(track) },
-                        onLongClick = { viewModel.removeFromFavorites(track) }
+                        onLongClick = { trackToDelete = track }
                     )
                 }
             }
         }
     }
+
+    val pending = trackToDelete
+    if (pending != null) {
+        AlertDialog(
+            onDismissRequest = { trackToDelete = null },
+            confirmButton = {
+                TextButton(onClick = {
+                    viewModel.removeFromFavorites(pending)
+                    trackToDelete = null
+                }) {
+                    Text(text = stringResource(id = R.string.delete))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { trackToDelete = null }) {
+                    Text(text = stringResource(id = R.string.cancel))
+                }
+            },
+            title = { Text(text = stringResource(id = R.string.delete)) },
+            text = { Text(text = "${pending.trackName} — ${pending.artistName}") }
+        )
+    }
 }
 
 @Composable
-private fun FavoriteTrackRow(track: Track, onClick: () -> Unit, onLongClick: () -> Unit) {
+private fun FavoriteTrackRow(track: UiTrack, onClick: () -> Unit, onLongClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -134,7 +162,7 @@ private fun FavoriteTrackRow(track: Track, onClick: () -> Unit, onLongClick: () 
             )
             Text(track.artistName, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
-        Text(track.trackTime, color = MaterialTheme.colorScheme.onSurface)
+        Text(track.duration, color = MaterialTheme.colorScheme.onSurface)
     }
 }
 

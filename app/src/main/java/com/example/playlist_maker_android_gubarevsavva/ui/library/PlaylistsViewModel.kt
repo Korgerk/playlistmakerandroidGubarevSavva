@@ -29,8 +29,6 @@ open class PlaylistsViewModel(
         loadPlaylists()
     }
 
-    val favoriteList: Flow<List<Track>> = tracksRepository.getFavoriteTracks()
-
     fun createNewPlayList(namePlaylist: String, description: String, coverUri: String?) {
         viewModelScope.launch(Dispatchers.IO) {
             playlistsRepository.addNewPlaylist(namePlaylist, description, coverUri)

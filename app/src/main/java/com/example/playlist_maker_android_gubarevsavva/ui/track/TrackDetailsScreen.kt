@@ -25,7 +25,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -36,6 +35,7 @@ import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.playlist_maker_android_gubarevsavva.R
@@ -49,7 +49,7 @@ fun TrackDetailsScreen(
     onBackClick: () -> Unit,
     viewModel: TrackDetailsViewModel = viewModel(factory = TrackDetailsViewModel.getFactory(track))
 ) {
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
     var showBottomSheet by rememberSaveable { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState()
 
@@ -96,7 +96,7 @@ fun TrackDetailsScreen(
             )
             Text(text = state.track.trackName, color = MaterialTheme.colorScheme.onBackground)
             Text(text = state.track.artistName, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            Text(text = state.track.trackTime, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(text = state.duration, color = MaterialTheme.colorScheme.onSurfaceVariant)
             if (state.track.album.isNotBlank()) {
                 Text(
                     text = "Альбом: ${state.track.album}",
@@ -188,7 +188,7 @@ fun TrackDetailsScreen(
 private fun TrackDetailsScreenPreview() {
     PlaylistmakerandroidGubarevSavvaTheme {
         TrackDetailsScreen(
-            track = Track(trackName = "Doomsday", artistName = "MF DOOM", trackTime = "04:18"),
+            track = Track(trackName = "Doomsday", artistName = "MF DOOM", trackTimeMillis = 258000),
             onBackClick = {}
         )
     }

@@ -11,16 +11,19 @@
 - **Android Studio**: Otter 2 Feature Drop | **2025.2.2+**
 - **Min SDK**: 24 (Android 7.0)
 - **Target SDK**: 36
-- **Kotlin**: 2.2.21
+- **Kotlin**: 2.0.21
 
 ### Основные библиотеки
-- **Jetpack Compose** (BOM **2025.12.00**) — UI
-- **Navigation Compose** 2.9.6 — навигация
-- **Room** 2.8.4 — локальная база данных
-- **DataStore** 1.2.0 — хранение истории поиска
-- **Retrofit** 3.0.0 — эмулятор сервера поиска
-- **Gson** 2.13.2 — парсинг JSON
-- **Coil** 2.7.0 — загрузка изображений
+- **Jetpack Compose** (BOM **2024.09.00**) - UI
+- **Navigation Compose** 2.8.3 - навигация
+- **Room** 2.6.1 - локальная база данных
+- **DataStore** 1.1.1 - хранение истории поиска
+- **Retrofit** 2.11.0 + **OkHttp** 4.12.0 - сеть (iTunes Search)
+- **Gson Converter** (Retrofit) - парсинг JSON
+- **Coil** 2.6.0 - загрузка изображений
+- **Lifecycle Runtime / ViewModel Compose** 2.6.1 - lifecycle-aware стейт в Compose
+- **kotlinx-collections-immutable** 0.3.7 - стабильные коллекции для Compose
+- **iTunes Search API** - поиск треков без авторизации
 
 ---
 

@@ -31,7 +31,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -48,9 +47,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.example.playlist_maker_android_gubarevsavva.R
-import com.example.playlist_maker_android_gubarevsavva.domain.model.Track
+import com.example.playlist_maker_android_gubarevsavva.ui.model.UiTrack
 import com.example.playlist_maker_android_gubarevsavva.ui.theme.PlaylistmakerandroidGubarevSavvaTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,11 +58,11 @@ import com.example.playlist_maker_android_gubarevsavva.ui.theme.Playlistmakerand
 fun SearchScreen(
     onBackClick: () -> Unit,
     viewModel: SearchViewModel,
-    onTrackClick: (Track) -> Unit = {},
+    onTrackClick: (UiTrack) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
-    val screenState by viewModel.searchScreenState.collectAsState()
-    val history by viewModel.history.collectAsState(emptyList())
+    val screenState by viewModel.searchScreenState.collectAsStateWithLifecycle()
+    val history by viewModel.history.collectAsStateWithLifecycle(emptyList())
     var query by rememberSaveable { mutableStateOf("") }
     var isFieldFocused by rememberSaveable { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
@@ -302,7 +302,7 @@ private fun ErrorPlaceholder(message: String, onRetry: () -> Unit) {
 
 @Composable
 private fun TrackListItem(
-    track: Track,
+    track: UiTrack,
     onClick: () -> Unit = {}
 ) {
     Row(
@@ -335,7 +335,7 @@ private fun TrackListItem(
             )
             Text(track.artistName, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
-        Text(track.trackTime, color = MaterialTheme.colorScheme.onSurface)
+        Text(track.duration, color = MaterialTheme.colorScheme.onSurface)
     }
 }
 
@@ -344,13 +344,13 @@ private fun TrackListItem(
 private fun TrackRowPreview() {
     PlaylistmakerandroidGubarevSavvaTheme {
         TrackListItem(
-            track = Track(
+            track = UiTrack(
+                id = 0,
                 trackName = "Doomsday",
                 artistName = "MF DOOM",
-                trackTime = "04:18"
+                trackTimeMillis = 258000,
+                duration = "04:18"
             )
         )
     }
 }
-
-

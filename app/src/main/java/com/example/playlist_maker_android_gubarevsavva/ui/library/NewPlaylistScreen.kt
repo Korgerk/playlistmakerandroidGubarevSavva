@@ -1,9 +1,11 @@
 ﻿package com.example.playlist_maker_android_gubarevsavva.ui.library
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+import android.webkit.MimeTypeMap
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -47,6 +49,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.playlist_maker_android_gubarevsavva.R
 import com.example.playlist_maker_android_gubarevsavva.ui.theme.PlaylistmakerandroidGubarevSavvaTheme
+import java.io.File
+import java.io.FileOutputStream
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -174,10 +178,13 @@ fun NewPlaylistScreen(
             )
             Button(
                 onClick = {
+                    val persistedCover = coverUri?.let { uri ->
+                        copyCoverToInternalStorage(context, uri)
+                    }
                     viewModel.createNewPlayList(
                         name.trim(),
                         description.trim(),
-                        coverUri?.toString()
+                        persistedCover
                     )
                     onBackClick()
                 },
@@ -195,4 +202,22 @@ private fun NewPlaylistScreenPreview() {
     PlaylistmakerandroidGubarevSavvaTheme {
         NewPlaylistScreen(onBackClick = {})
     }
+}
+
+private fun copyCoverToInternalStorage(context: Context, uri: Uri): String? {
+    return runCatching {
+        val resolver = context.contentResolver
+        val mimeType = resolver.getType(uri)
+        val extension = MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType).orEmpty()
+        val safeExt = if (extension.isNotBlank()) extension else "jpg"
+        val coversDir = File(context.filesDir, "playlist_covers").apply { mkdirs() }
+        val destFile = File(coversDir, "cover_${System.currentTimeMillis()}.$safeExt")
+
+        resolver.openInputStream(uri)?.use { input ->
+            FileOutputStream(destFile).use { output ->
+                input.copyTo(output)
+            }
+        }
+        destFile.absolutePath
+    }.getOrNull()
 }

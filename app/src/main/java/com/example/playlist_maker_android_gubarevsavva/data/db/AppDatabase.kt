@@ -9,7 +9,7 @@ import com.example.playlist_maker_android_gubarevsavva.data.db.entity.TrackEntit
 
 @Database(
     entities = [PlaylistEntity::class, TrackEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

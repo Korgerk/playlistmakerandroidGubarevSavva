@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.playlist_maker_android_gubarevsavva.data.di.Creator
 import com.example.playlist_maker_android_gubarevsavva.domain.repository.TracksRepository
+import com.example.playlist_maker_android_gubarevsavva.ui.model.toUi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,7 +28,7 @@ class SearchViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 _searchScreenState.update { SearchState.Searching }
-                val list = tracksRepository.searchTracks(expression = query)
+                val list = tracksRepository.searchTracks(expression = query).map { it.toUi() }
                 tracksRepository.addToHistory(query)
                 _searchScreenState.update { SearchState.Success(tracks = list) }
             } catch (e: IOException) {

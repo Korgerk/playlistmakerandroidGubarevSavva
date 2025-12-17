@@ -8,7 +8,7 @@ data class TrackEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val trackName: String,
     val artistName: String,
-    val trackTime: String,
+    val trackTimeMillis: Long,
     val album: String,
     val year: String,
     val artworkUrl: String?,

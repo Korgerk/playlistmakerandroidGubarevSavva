@@ -9,9 +9,9 @@ import androidx.room.Room
 import com.example.playlist_maker_android_gubarevsavva.data.db.AppDatabase
 import com.example.playlist_maker_android_gubarevsavva.data.network.RetrofitNetworkClient
 import com.example.playlist_maker_android_gubarevsavva.data.preferences.SearchHistoryPreferences
+import com.example.playlist_maker_android_gubarevsavva.data.preferences.SearchHistoryPreferencesImpl
 import com.example.playlist_maker_android_gubarevsavva.data.repository.PlaylistsRepositoryImpl
 import com.example.playlist_maker_android_gubarevsavva.data.repository.TracksRepositoryImpl
-import com.example.playlist_maker_android_gubarevsavva.data.storage.Storage
 import com.example.playlist_maker_android_gubarevsavva.domain.repository.PlaylistsRepository
 import com.example.playlist_maker_android_gubarevsavva.domain.repository.TracksRepository
 
@@ -29,11 +29,15 @@ object Creator {
             appContext,
             AppDatabase::class.java,
             "playlist_maker_db"
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
     }
 
-    private val networkClient by lazy { RetrofitNetworkClient(Storage()) }
-    private val searchHistoryPreferences by lazy { SearchHistoryPreferences(dataStore) }
+    private val networkClient by lazy { RetrofitNetworkClient() }
+    private val searchHistoryPreferences: SearchHistoryPreferences by lazy {
+        SearchHistoryPreferencesImpl(dataStore)
+    }
     private val tracksRepository by lazy {
         TracksRepositoryImpl(
             networkClient = networkClient,

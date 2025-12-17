@@ -1,19 +1,24 @@
 package com.example.playlist_maker_android_gubarevsavva.ui.library
 
+import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.playlist_maker_android_gubarevsavva.data.di.Creator
-import com.example.playlist_maker_android_gubarevsavva.domain.model.Playlist
 import com.example.playlist_maker_android_gubarevsavva.domain.repository.PlaylistsRepository
 import com.example.playlist_maker_android_gubarevsavva.domain.repository.TracksRepository
+import com.example.playlist_maker_android_gubarevsavva.ui.model.PlaylistUi
+import com.example.playlist_maker_android_gubarevsavva.ui.model.UiTrack
+import com.example.playlist_maker_android_gubarevsavva.ui.model.toDomain
+import com.example.playlist_maker_android_gubarevsavva.ui.model.toUi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
+@Immutable
 data class PlaylistDetailsState(
-    val playlist: Playlist? = null
+    val playlist: PlaylistUi? = null
 )
 
 class PlaylistDetailsViewModel(
@@ -30,7 +35,7 @@ class PlaylistDetailsViewModel(
     init {
         viewModelScope.launch {
             repository.getPlaylist(playlistId).collect { playlist ->
-                _state.value = PlaylistDetailsState(playlist = playlist)
+                _state.value = PlaylistDetailsState(playlist = playlist?.toUi())
             }
         }
     }
@@ -47,9 +52,9 @@ class PlaylistDetailsViewModel(
         _deleted.value = false
     }
 
-    fun removeTrack(track: com.example.playlist_maker_android_gubarevsavva.domain.model.Track) {
+    fun removeTrack(track: UiTrack) {
         viewModelScope.launch(Dispatchers.IO) {
-            tracksRepository.deleteTrackFromPlaylist(track)
+            tracksRepository.deleteTrackFromPlaylist(track.toDomain())
         }
     }
 

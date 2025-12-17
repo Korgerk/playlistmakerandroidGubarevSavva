@@ -26,7 +26,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,11 +38,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.playlist_maker_android_gubarevsavva.R
-import com.example.playlist_maker_android_gubarevsavva.domain.model.Playlist
-import com.example.playlist_maker_android_gubarevsavva.domain.model.Track
+import com.example.playlist_maker_android_gubarevsavva.ui.model.PlaylistUi
+import com.example.playlist_maker_android_gubarevsavva.ui.model.UiTrack
 import com.example.playlist_maker_android_gubarevsavva.ui.theme.PlaylistmakerandroidGubarevSavvaTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -57,9 +57,9 @@ fun PlaylistDetailsScreen(
         )
     )
 ) {
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
     val playlist = state.playlist
-    val deleted by viewModel.deleted.collectAsState()
+    val deleted by viewModel.deleted.collectAsStateWithLifecycle()
 
     LaunchedEffect(deleted) {
         if (deleted) {
@@ -79,13 +79,13 @@ fun PlaylistDetailsScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun PlaylistDetailsContent(
-    playlist: Playlist?,
+    playlist: PlaylistUi?,
     onBackClick: () -> Unit,
     onDelete: () -> Unit,
-    onRemoveTrack: (Track) -> Unit
+    onRemoveTrack: (UiTrack) -> Unit
 ) {
     var showDeleteDialog by remember { mutableStateOf(false) }
-    var trackToDelete by remember { mutableStateOf<Track?>(null) }
+    var trackToDelete by remember { mutableStateOf<UiTrack?>(null) }
 
     Scaffold(
         topBar = {
@@ -231,7 +231,7 @@ private fun PlaylistDetailsContent(
 }
 
 @Composable
-private fun TrackRow(track: Track, onLongClick: () -> Unit) {
+private fun TrackRow(track: UiTrack, onLongClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -261,7 +261,7 @@ private fun TrackRow(track: Track, onLongClick: () -> Unit) {
         ) {
             Text(text = track.trackName, color = MaterialTheme.colorScheme.onSurface)
             Text(text = track.artistName, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            Text(text = track.trackTime, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(text = track.duration, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
 }
@@ -271,13 +271,25 @@ private fun TrackRow(track: Track, onLongClick: () -> Unit) {
 private fun PlaylistDetailsScreenPreview() {
     PlaylistmakerandroidGubarevSavvaTheme {
         PlaylistDetailsContent(
-            playlist = Playlist(
+            playlist = PlaylistUi(
                 id = 1,
                 name = "Плейлист",
                 description = "Описание",
                 tracks = listOf(
-                    Track(trackName = "Трек 1", artistName = "Исполнитель", trackTime = "03:15"),
-                    Track(trackName = "Трек 2", artistName = "Исполнитель", trackTime = "04:20")
+                    UiTrack(
+                        id = 1,
+                        trackName = "Трек 1",
+                        artistName = "Исполнитель",
+                        trackTimeMillis = 195000,
+                        duration = "03:15"
+                    ),
+                    UiTrack(
+                        id = 2,
+                        trackName = "Трек 2",
+                        artistName = "Исполнитель",
+                        trackTimeMillis = 260000,
+                        duration = "04:20"
+                    )
                 )
             ),
             onBackClick = {},

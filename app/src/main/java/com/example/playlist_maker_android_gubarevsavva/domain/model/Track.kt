@@ -4,7 +4,7 @@ data class Track(
     val id: Long = 0,
     val trackName: String,
     val artistName: String,
-    val trackTime: String,
+    val trackTimeMillis: Long = 0,
     val album: String = "",
     val year: String = "",
     val artworkUrl: String? = null,

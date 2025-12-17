@@ -29,7 +29,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,6 +42,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.playlist_maker_android_gubarevsavva.R
@@ -58,7 +58,7 @@ fun LibraryScreen(
     viewModel: PlaylistsViewModel = viewModel(factory = PlaylistsViewModel.getFactory()),
     modifier: Modifier = Modifier
 ) {
-    val playlists by viewModel.playlists.collectAsState(emptyList())
+    val playlists by viewModel.playlists.collectAsStateWithLifecycle()
     var deleteTargetId by remember { mutableStateOf<Long?>(null) }
 
     Scaffold(

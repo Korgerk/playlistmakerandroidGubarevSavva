@@ -8,6 +8,7 @@ import com.example.playlist_maker_android_gubarevsavva.domain.model.Playlist
 import com.example.playlist_maker_android_gubarevsavva.domain.model.Track
 import com.example.playlist_maker_android_gubarevsavva.domain.repository.PlaylistsRepository
 import com.example.playlist_maker_android_gubarevsavva.domain.repository.TracksRepository
+import com.example.playlist_maker_android_gubarevsavva.ui.common.formatDuration
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -15,6 +16,7 @@ import kotlinx.coroutines.launch
 
 data class TrackDetailsState(
     val track: Track,
+    val duration: String,
     val playlists: List<Playlist> = emptyList()
 )
 
@@ -24,7 +26,13 @@ class TrackDetailsViewModel(
     initialTrack: Track
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(TrackDetailsState(track = initialTrack))
+    private val _state =
+        MutableStateFlow(
+            TrackDetailsState(
+                track = initialTrack,
+                duration = formatDuration(initialTrack.trackTimeMillis)
+            )
+        )
     val state = _state.asStateFlow()
 
     init {
@@ -44,7 +52,12 @@ class TrackDetailsViewModel(
         viewModelScope.launch {
             tracksRepository.getTrackByNameAndArtist(track).collect { found ->
                 if (found != null) {
-                    _state.update { it.copy(track = found) }
+                    _state.update {
+                        it.copy(
+                            track = found,
+                            duration = formatDuration(found.trackTimeMillis)
+                        )
+                    }
                 }
             }
         }

@@ -5,12 +5,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.playlist_maker_android_gubarevsavva.data.di.Creator
 import com.example.playlist_maker_android_gubarevsavva.domain.repository.TracksRepository
-import java.io.IOException
+import com.example.playlist_maker_android_gubarevsavva.ui.model.toUi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.io.IOException
 
 class SearchViewModel(
     private val tracksRepository: TracksRepository
@@ -18,13 +19,17 @@ class SearchViewModel(
 
     private val _searchScreenState = MutableStateFlow<SearchState>(SearchState.Initial)
     val searchScreenState = _searchScreenState.asStateFlow()
+    val history = tracksRepository.observeHistory()
+    private var lastQuery: String = ""
 
     fun search(query: String) {
         if (query.isBlank()) return
+        lastQuery = query
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 _searchScreenState.update { SearchState.Searching }
-                val list = tracksRepository.searchTracks(expression = query)
+                val list = tracksRepository.searchTracks(expression = query).map { it.toUi() }
+                tracksRepository.addToHistory(query)
                 _searchScreenState.update { SearchState.Success(tracks = list) }
             } catch (e: IOException) {
                 _searchScreenState.update { SearchState.Fail(e.message.orEmpty()) }
@@ -32,8 +37,15 @@ class SearchViewModel(
         }
     }
 
+    fun retryLast() {
+        if (lastQuery.isNotBlank()) {
+            search(lastQuery)
+        }
+    }
+
     fun clearSearch() {
         _searchScreenState.update { SearchState.Initial }
+        lastQuery = ""
     }
 
     companion object {
